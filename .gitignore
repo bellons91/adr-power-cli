@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/adr-power-cli/FileContentIndex
+/.vs/adr-power-cli/v17
+/cli/bin/Debug/net8.0
+/cli/obj
+/core/bin/Debug/net8.0
+/core/obj
+/.vs
