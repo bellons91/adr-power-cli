@@ -9,3 +9,8 @@
 /core/bin/Debug/net8.0
 /core/obj
 /.vs
+/src/cli/bin/Debug/net8.0
+/src/cli/obj/Debug/net8.0
+/src/cli/obj
+/src/core/bin/Debug/net8.0
+/src/core/obj
