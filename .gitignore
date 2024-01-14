@@ -14,3 +14,5 @@
 /src/cli/obj
 /src/core/bin/Debug/net8.0
 /src/core/obj
+/src/cli/bin
+/src/core/bin/Release/net8.0

@@ -4,7 +4,15 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-IHost host = CreateHost();
+HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(TestOperation).Assembly);
+});
+
+using IHost host = builder.Build();
+//IHost host = CreateHost();
 ISender sender = host.Services.GetRequiredService<ISender>();
 
 var result = await sender.Send(new TestOperation.TestRequest { Name = "Davide" });
@@ -15,7 +23,10 @@ Host
 .CreateDefaultBuilder()
 .ConfigureServices((context, services) =>
 {
-    services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<TestOperation>());
+    services.AddMediatR(cfg =>
+    {
+        cfg.RegisterServicesFromAssembly(typeof(TestOperation).Assembly);
+    });
 })
 
 .Build();
