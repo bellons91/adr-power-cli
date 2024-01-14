@@ -1,0 +1,192 @@
+name: .NET 8 Build and Publish
+
+env:
+  DOTNET_VERSION: "8.x"
+  OUTPUT_PATH: ${{ github.workspace }}/artifact
+  ASSEMBLY_VERSION: 1.0.0.${{ github.run_number }}
+  ADR_PROJECT_FILE: "adr-power-cli.csproj"
+  ADR_TESTPROJECT_FILE: "tests.csproj"
+  ADR_PROJECT_FILE_PATH: "./src/adr-power-cli/adr-power-cli.csproj"
+  ADR_TESTPROJECT_FILE_PATH: "./src/adr.tests/tests.csproj"
+  WINDOWS_RUNTIME: "win-x64"
+  UBUNTU_RUNTIME: "linux-x64"
+  CONFIGURATION: "Release"
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build all
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Fetch all history for all tags and branches
+        run: git fetch --unshallow || true
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.13
+        with:
+          versionSpec: "5.x"
+
+      - name: Use GitVersion
+        id: gitversion # step id used as reference for output values
+        uses: gittools/actions/gitversion/execute@v0.9.13
+
+      - run: |
+          echo "Major: ${{ steps.gitversion.outputs.major }}"
+          echo "Minor: ${{ steps.gitversion.outputs.minor }}"
+          echo "Patch: ${{ steps.gitversion.outputs.patch }}"
+          echo "PreReleaseTag: ${{ steps.gitversion.outputs.preReleaseTag }}"
+          echo "PreReleaseTagWithDash: ${{ steps.gitversion.outputs.preReleaseTagWithDash }}"
+          echo "PreReleaseLabel: ${{ steps.gitversion.outputs.preReleaseLabel }}"
+          echo "PreReleaseNumber: ${{ steps.gitversion.outputs.preReleaseNumber }}"
+          echo "WeightedPreReleaseNumber: ${{ steps.gitversion.outputs.weightedPreReleaseNumber }}"
+          echo "BuildMetaData: ${{ steps.gitversion.outputs.buildMetaData }}"
+          echo "BuildMetaDataPadded: ${{ steps.gitversion.outputs.buildMetaDataPadded }}"
+          echo "FullBuildMetaData: ${{ steps.gitversion.outputs.fullBuildMetaData }}"
+          echo "MajorMinorPatch: ${{ steps.gitversion.outputs.majorMinorPatch }}"
+          echo "SemVer: ${{ steps.gitversion.outputs.semVer }}"
+          echo "LegacySemVer: ${{ steps.gitversion.outputs.legacySemVer }}"
+          echo "LegacySemVerPadded: ${{ steps.gitversion.outputs.legacySemVerPadded }}"
+          echo "AssemblySemVer: ${{ steps.gitversion.outputs.assemblySemVer }}"
+          echo "AssemblySemFileVer: ${{ steps.gitversion.outputs.assemblySemFileVer }}"
+          echo "FullSemVer: ${{ steps.gitversion.outputs.fullSemVer }}"
+          echo "InformationalVersion: ${{ steps.gitversion.outputs.informationalVersion }}"
+          echo "BranchName: ${{ steps.gitversion.outputs.branchName }}"
+          echo "EscapedBranchName: ${{ steps.gitversion.outputs.escapedBranchName }}"
+          echo "Sha: ${{ steps.gitversion.outputs.sha }}"
+          echo "ShortSha: ${{ steps.gitversion.outputs.shortSha }}"
+          echo "NuGetVersionV2: ${{ steps.gitversion.outputs.nuGetVersionV2 }}"
+          echo "NuGetVersion: ${{ steps.gitversion.outputs.nuGetVersion }}"
+          echo "NuGetPreReleaseTagV2: ${{ steps.gitversion.outputs.nuGetPreReleaseTagV2 }}"
+          echo "NuGetPreReleaseTag: ${{ steps.gitversion.outputs.nuGetPreReleaseTag }}"
+          echo "VersionSourceSha: ${{ steps.gitversion.outputs.versionSourceSha }}"
+          echo "CommitsSinceVersionSource: ${{ steps.gitversion.outputs.commitsSinceVersionSource }}"
+          echo "CommitsSinceVersionSourcePadded: ${{ steps.gitversion.outputs.commitsSinceVersionSourcePadded }}"
+          echo "UncommittedChanges: ${{ steps.gitversion.outputs.uncommittedChanges }}"
+          echo "CommitDate: ${{ steps.gitversion.outputs.commitDate }}"
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Display dotnet version
+        run: dotnet --version
+
+      - name: Install dependencies
+        run: dotnet restore
+        working-directory: ./src
+
+      - name: Build
+        run: dotnet build ${{ env.ADR_PROJECT_FILE_PATH}} --runtime ${{ env.WINDOWS_RUNTIME }} --configuration ${{ env.CONFIGURATION }}  -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }}
+       # working-directory: ${{ env.ADR_PROJECT_FILE}}
+
+    #    - name: Test
+    #      run: dotnet test  ${{ env.ADR_TESTPROJECT_FILE }} --runtime ${{ env.WINDOWS_RUNTIME}}  --verbosity normal
+    #     working-directory: ./src
+     #   working-directory: ${{ env.ADR_TESTPROJECT_FILE }}
+     
+#  publish_windows:
+#    name: Publish Windows package
+#    needs: build
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Fetch all history for all tags and branches
+#        run: git fetch --unshallow || true
+#
+#      - name: Install GitVersion
+#        uses: gittools/actions/gitversion/setup@v0.9.13
+#        with:
+#          versionSpec: "5.x"
+#
+#      - name: Use GitVersion
+#        id: gitversion # step id used as reference for output values
+#        uses: gittools/actions/gitversion/execute@v0.9.13
+#
+#      - name: Setup .NET
+#        uses: actions/setup-dotnet@v3
+#        with:
+#          dotnet-version: ${{ env.DOTNET_VERSION }}
+#
+#      - name: Publish for Windows-x64 single executable
+#    #    if: github.ref == 'refs/heads/master'
+#        run: dotnet publish ${{ env.ADR_PROJECT_FILE_PATH }} --runtime ${{ env.WINDOWS_RUNTIME}} -c ${{ env.CONFIGURATION}} /p:PublishSingleFile=true --output ${{ env.OUTPUT_PATH }}/windows-portable --verbosity detailed
+#
+#      - name: List output result
+#        run: ls ${{ env.OUTPUT_PATH }}/windows-portable
+#
+#      - name: Zip Windows-x64 artifacts
+#     #   if: github.ref == 'refs/heads/master'
+#        uses: montudor/action-zip@v1.0.0
+#        with:
+#          args: zip -qq -r ${{ env.OUTPUT_PATH }}/ADR-CLI-tool-windows-${{ steps.gitversion.outputs.nuGetVersionV2 }}.zip ${{ env.OUTPUT_PATH }}/windows-portable/
+#
+#      - name: Upload a Build Artifact
+# #       if: github.ref == 'refs/heads/master'
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: ADR-CLI-tool-${{ steps.gitversion.outputs.nuGetVersionV2 }}
+#          path: ${{ env.OUTPUT_PATH }}
+#  publish_linux:
+#    name: Publish Linux package
+#    needs: build
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Fetch all history for all tags and branches
+#        run: git fetch --unshallow || true
+#
+#      - name: Install GitVersion
+#        uses: gittools/actions/gitversion/setup@v0.9.13
+#        with:
+#          versionSpec: "5.x"
+#
+#      - name: Use GitVersion
+#        id: gitversion # step id used as reference for output values
+#        uses: gittools/actions/gitversion/execute@v0.9.13
+# 
+#      - name: Setup .NET
+#        uses: actions/setup-dotnet@v3
+#        with:
+#          dotnet-version: ${{ env.DOTNET_VERSION }}
+#
+#      - name: Publish for Linux-x64 single executable
+##        if: github.ref == 'refs/heads/master'
+#        run: dotnet publish ${{ env.ADR_PROJECT_FILE_PATH}} --runtime ${{ env.UBUNTU_RUNTIME}} -c ${{ env.CONFIGURATION}} /p:PublishSingleFile=true --output ${{ env.OUTPUT_PATH }}/ubuntu-portable/ --verbosity detailed
+#
+#      - name: Zip Linux-x64 artifacts
+##        if: github.ref == 'refs/heads/master'
+#        uses: montudor/action-zip@v1.0.0
+#        with:
+#          args: zip -qq -r ${{ env.OUTPUT_PATH }}/ADR-CLI-tool-ubuntu-${{ steps.gitversion.outputs.nuGetVersionV2 }}.zip ${{ env.OUTPUT_PATH }}/ubuntu-portable/
+#
+#      - name: Upload a Build Artifact
+##        if: github.ref == 'refs/heads/master'
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: ADR-CLI-tool-${{ steps.gitversion.outputs.nuGetVersionV2 }}
+#          path: ${{ env.OUTPUT_PATH }}
+#  
+#  publish_artifacts:
+#    name: Publish Artifacts
+#    needs: [publish_linux, publish_windows]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Upload a Build Artifact
+#   #     if: github.ref == 'refs/heads/master'
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: ADR-CLI-tool-${{ steps.gitversion.outputs.nuGetVersionV2 }}
+#          path: ${{ env.OUTPUT_PATH }}
