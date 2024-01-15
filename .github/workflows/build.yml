@@ -11,6 +11,7 @@ env:
   WINDOWS_RUNTIME: "win-x64"
   UBUNTU_RUNTIME: "linux-x64"
   CONFIGURATION: "Release"
+  ADR_SOLUTION_FILE: "adr-power-cli.sln"
 
 on:
   workflow_dispatch:
@@ -93,7 +94,7 @@ jobs:
    runs-on: ubuntu-latest
    steps:
     - name: Test
-      run: dotnet test  --runtime ${{ env.WINDOWS_RUNTIME}}  --verbosity normal
+      run: dotnet test ${{ env.ADR_SOLUTION_FILE}} --runtime ${{ env.WINDOWS_RUNTIME}}  --verbosity normal
       #working-directory: tests
      
 #  publish_windows:
