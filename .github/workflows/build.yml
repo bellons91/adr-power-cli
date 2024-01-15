@@ -4,9 +4,9 @@ env:
   DOTNET_VERSION: "8.x"
   OUTPUT_PATH: ${{ github.workspace }}/artifact
   ASSEMBLY_VERSION: 1.0.0.${{ github.run_number }}
-  ADR_PROJECT_FILE: "Cli.csproj"
+  ADR_PROJECT_FILE: "adr-power-cli.csproj"
 # ADR_TESTPROJECT_FILE: "tests.csproj"
-  ADR_PROJECT_FILE_PATH: "./src/cli/Cli.csproj"
+  ADR_PROJECT_FILE_PATH: "./src/cli/adr-power-cli.csproj"
 # ADR_TESTPROJECT_FILE_PATH: "./src/adr.tests/tests.csproj"
   WINDOWS_RUNTIME: "win-x64"
   UBUNTU_RUNTIME: "linux-x64"
