@@ -87,9 +87,14 @@ jobs:
         run: dotnet build ${{ env.ADR_PROJECT_FILE}} --runtime ${{ env.WINDOWS_RUNTIME }} --configuration ${{ env.CONFIGURATION }}  -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }}
         working-directory: ./src/cli
 
-      - name: Test
-        run: dotnet test  --runtime ${{ env.WINDOWS_RUNTIME}}  --verbosity normal
-        working-directory: ./src/tests
+  run-tests:
+   name: Run tests
+   needs: build
+   runs-on: ubuntu-latest
+   steps:
+    - name: Test
+      run: dotnet test  --runtime ${{ env.WINDOWS_RUNTIME}}  --verbosity normal
+      working-directory: ./tests
      
 #  publish_windows:
 #    name: Publish Windows package
