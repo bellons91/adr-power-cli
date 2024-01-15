@@ -94,7 +94,7 @@ jobs:
    steps:
     - name: Test
       run: dotnet test  --runtime ${{ env.WINDOWS_RUNTIME}}  --verbosity normal
-      working-directory: tests
+      #working-directory: tests
      
 #  publish_windows:
 #    name: Publish Windows package
