@@ -16,3 +16,7 @@
 /src/core/obj
 /src/cli/bin
 /src/core/bin/Release/net8.0
+/tests/adr-cli-tests/bin/Release/net8.0
+/tests/adr-cli-tests/obj
+/tests/adr-core-tests/bin/Release/net8.0
+/tests/adr-core-tests/obj
