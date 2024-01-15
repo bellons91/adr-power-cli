@@ -93,9 +93,9 @@ jobs:
    needs: build
    runs-on: ubuntu-latest
    steps:
-    - name: Test
+    - name: Test Core
       run: dotnet test ${{ env.ADR_TESTPROJECT_CORE_FILE}} --runtime ${{ env.WINDOWS_RUNTIME}}  --verbosity normal
-      #working-directory: tests
+      working-directory: ./src/tests
      
 #  publish_windows:
 #    name: Publish Windows package
