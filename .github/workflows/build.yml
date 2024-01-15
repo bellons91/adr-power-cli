@@ -84,7 +84,7 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build ${{ env.ADR_PROJECT_FILE_PATH}} --runtime ${{ env.WINDOWS_RUNTIME }} --configuration ${{ env.CONFIGURATION }}  -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }}
+        run: dotnet build ${{ env.ADR_PROJECT_FILE}} --runtime ${{ env.WINDOWS_RUNTIME }} --configuration ${{ env.CONFIGURATION }}  -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }}
         working-directory: ./src/cli
 
     #    - name: Test
