@@ -82,11 +82,10 @@ jobs:
 
       - name: Install dependencies
         run: dotnet restore
-        working-directory: ${{env.ADR_PROJECT_FILE_PATH}}
 
       - name: Build
         run: dotnet build ${{ env.ADR_PROJECT_FILE_PATH}} --runtime ${{ env.WINDOWS_RUNTIME }} --configuration ${{ env.CONFIGURATION }}  -p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }}
-       # working-directory: ${{ env.ADR_PROJECT_FILE}}
+        working-directory: ./src/cli
 
     #    - name: Test
     #      run: dotnet test  ${{ env.ADR_TESTPROJECT_FILE }} --runtime ${{ env.WINDOWS_RUNTIME}}  --verbosity normal
