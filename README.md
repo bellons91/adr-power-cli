@@ -2,6 +2,8 @@
 
 With ADR Power CLI you can create and manage Architecture Decision Records for your projects by generating structured Markdown files.
 
+[![.NET 8 Build and Publish](https://github.com/bellons91/adr-power-cli/actions/workflows/build.yml/badge.svg)](https://github.com/bellons91/adr-power-cli/actions/workflows/build.yml)
+
 ## About Architecture Decision Records (ADRs)
 
 ADR is a formal document that helps you track the most important architectural decisions.
