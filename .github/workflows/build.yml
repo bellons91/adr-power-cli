@@ -93,6 +93,11 @@ jobs:
    needs: build
    runs-on: ubuntu-latest
    steps:
+
+       # Execute all unit tests in the solution
+    - name: Execute unit tests
+      run: dotnet test
+
     - name: Test Core
       run: dotnet test tests/adr-core-tests/adr-core-tests.csproj --verbosity normal
    #   working-directory: tests
