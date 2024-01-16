@@ -94,8 +94,8 @@ jobs:
    runs-on: ubuntu-latest
    steps:
     - name: Test Core
-      run: dotnet test adr-core-tests/adr-core-tests.csproj  --runtime ${{ env.WINDOWS_RUNTIME}}  --verbosity normal
-      working-directory: tests
+      run: dotnet test tests/adr-core-tests/adr-core-tests.csproj --verbosity normal
+   #   working-directory: tests
      
 #  publish_windows:
 #    name: Publish Windows package
