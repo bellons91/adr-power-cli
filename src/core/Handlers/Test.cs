@@ -1,8 +1,8 @@
 ﻿using MediatR;
 
-namespace Core
+namespace Handlers
 {
-    public class TestOperation
+    public class Test
     {
         public class TestRequest : IRequest<string>
         {

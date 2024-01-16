@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "adr-power-cli": {
+      "commandName": "Project",
+      "commandLineArgs": "init"
+    }
+  }
+}
