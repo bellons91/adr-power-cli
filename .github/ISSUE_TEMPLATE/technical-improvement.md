@@ -1,7 +1,7 @@
 ---
 name: Technical improvement
 about: Suggest an idea for this project
-title: 'Improvement: '
+title: '[TECH] '
 labels: enhancement
 assignees: bellons91
 

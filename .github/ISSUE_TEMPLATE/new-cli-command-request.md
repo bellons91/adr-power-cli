@@ -1,7 +1,7 @@
 ---
 name: New CLI command request
 about: Suggest an idea for this project
-title: 'New command: '
+title: '[Command] '
 labels: enhancement
 assignees: bellons91
 
