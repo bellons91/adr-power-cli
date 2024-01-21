@@ -33,15 +33,15 @@ internal class Program
         using IHost host = builder.Build();
         ISender sender = host.Services.GetRequiredService<ISender>();
 
-        var ins = Parser.Default.ParseArguments<InitOptions, object>(args)
+        var operationResult = Parser.Default.ParseArguments<InitOptions, object>(args)
             .MapResult(
             (InitOptions co) =>
             {
-                return new InitializationCommandHandler(sender).Execute(co);
+                return new InitializationCommandHandler(sender).Execute(co).GetAwaiter().GetResult();
             },
             err => { Console.WriteLine("Not recognized!"); return 0; }
             );
-        Console.WriteLine(ins);
+        Console.WriteLine(operationResult);
 
     }
 

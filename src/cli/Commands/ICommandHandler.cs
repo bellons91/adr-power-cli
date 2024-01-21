@@ -2,6 +2,6 @@
 {
     internal interface ICommandHandler<T> where T : IConsoleCommand
     {
-        int Execute(T command);
+        Task<int> Execute(T command);
     }
 }

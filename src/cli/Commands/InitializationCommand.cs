@@ -35,7 +35,7 @@ namespace Commands
                 _sender = sender;
             }
 
-            public int Execute(InitOptions initOptions)
+            public async Task<int> Execute(InitOptions initOptions)
             {
 
                 if (!IsValid(initOptions))
@@ -46,7 +46,7 @@ namespace Commands
                 settings.AvailableStatuses = initOptions.AvailableStatuses.ToArray();
 
 
-                _sender.Send(settings, CancellationToken.None).GetAwaiter().GetResult();
+                await _sender.Send(settings, CancellationToken.None);
 
 
                 return 1;
