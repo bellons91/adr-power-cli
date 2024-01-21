@@ -6,8 +6,6 @@ namespace Handlers
     public class Initialization
     {
 
-
-
         public class InitRequest : IRequest
         {
             public string Name { get; set; }

@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\cli\adr-power-cli.csproj" />
+    <ProjectReference Include="..\..\src\cli\Cli.csproj" />
   </ItemGroup>
 
 </Project>

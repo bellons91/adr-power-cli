@@ -15,7 +15,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\core\adr-power-core.csproj" />
+		<ProjectReference Include="..\core\Core.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -3,15 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "adr-power-core", "src\core\adr-power-core.csproj", "{49426196-C29D-45D5-A222-EEE9507BD32D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "src\core\Core.csproj", "{49426196-C29D-45D5-A222-EEE9507BD32D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "adr-power-cli", "src\cli\adr-power-cli.csproj", "{2F804F29-2275-4A06-A788-1A8716B93011}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cli", "src\cli\Cli.csproj", "{2F804F29-2275-4A06-A788-1A8716B93011}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{07DBE925-DED5-4594-83E9-FBD648283B98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adr-core-tests", "tests\adr-core-tests\adr-core-tests.csproj", "{6C792AC5-E8F6-41D8-AB71-65AC52DB238F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Tests", "tests\adr-core-tests\Core.Tests.csproj", "{6C792AC5-E8F6-41D8-AB71-65AC52DB238F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adr-cli-tests", "tests\adr-cli-tests\adr-cli-tests.csproj", "{DF10E0A1-FCBE-4C0B-9779-6D7C2EDF2C60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cli.Tests", "tests\adr-cli-tests\Cli.Tests.csproj", "{DF10E0A1-FCBE-4C0B-9779-6D7C2EDF2C60}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{4398A8F6-C6ED-4C95-BF38-12C945F9F5BF}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnet-pr.yml = .github\workflows\dotnet-pr.yml
+		.github\workflows\dotnet-release.yml = .github\workflows\dotnet-release.yml
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
