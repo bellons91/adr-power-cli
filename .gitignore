@@ -36,3 +36,13 @@
 /tests/adr-cli-tests/bin/Debug/net8.0/zh-Hant
 /tests/adr-cli-tests/bin/Debug/net8.0
 /tests/adr-core-tests/bin/Release/net8.0/CoverletSourceRootsMapping_adr-core-tests
+/src/DependenciesCenter/obj
+/src/FileSystem/obj
+/tests/adr-core-tests/bin/Release/net8.0
+/src/DependenciesCenter/bin/Debug/net8.0
+/src/FileSystemAccess/bin/Debug/net8.0
+/src/FileSystemAccess/obj
+/tests/Cli.Tests/bin
+/tests/Cli.Tests/obj
+/tests/Core.Tests/bin
+/tests/Core.Tests/obj

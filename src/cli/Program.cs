@@ -1,11 +1,13 @@
 ﻿using CommandLine;
 using Handlers;
+using Interfaces;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Threading.Channels;
 using static Commands.InitializationCommand;
 using static Handlers.Initialization;
+using DependenciesCenter;
 
 
 
@@ -23,10 +25,8 @@ builder.Services.AddMediatR(cfg =>
 });
 
 using IHost host = builder.Build();
-//IHost host = CreateHost();
 ISender sender = host.Services.GetRequiredService<ISender>();
 
-Console.WriteLine(string.Concat(args.Select(s => s + ',')));
 
 var ins = Parser.Default.ParseArguments<Commands.InitializationCommand.InitOptions, object>(args)
     .MapResult(
@@ -38,12 +38,6 @@ var ins = Parser.Default.ParseArguments<Commands.InitializationCommand.InitOptio
     );
 ;
 Console.WriteLine(ins);
-//var result = await sender.Send(new Test.TestRequest { Name = "Davide" });
-//Console.WriteLine(result);
-
-//await sender.Send(new Initialization.InitRequest());
-//Console.ReadLine();
-
 
 static IHost CreateHost() =>
 Host
@@ -54,6 +48,7 @@ Host
     {
         cfg.RegisterServicesFromAssembly(typeof(Test).Assembly);
     });
+    services.AddCliDependencies();
 })
 
 .Build();

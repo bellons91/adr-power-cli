@@ -1,4 +1,5 @@
-﻿using Handlers;
+﻿using Core.Models;
+using Handlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Interfaces
 {
     public interface IConfigurationService
     {
-        Task InitializeAsync(Initialization.AdrSettings settings, CancellationToken cancellationToken);
+        Task InitializeAsync(AdrSettings settings, CancellationToken cancellationToken);
     }
 }

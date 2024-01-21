@@ -1,4 +1,5 @@
-﻿using Interfaces;
+﻿using Core.Models;
+using Interfaces;
 using MediatR;
 
 namespace Handlers
@@ -37,15 +38,6 @@ namespace Handlers
             }
         }
 
-        public class AdrSettings
-        {
-            public string Name { get; set; }
-            public string Template { get; set; }
-            public string[] AvailableStatus { get; set; }
-            public bool IsValid()
-            {
-                return !string.IsNullOrEmpty(Name);
-            }
-        }
+
     }
 }
