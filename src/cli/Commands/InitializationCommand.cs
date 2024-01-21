@@ -1,5 +1,7 @@
 ﻿using CommandLine;
 using Handlers;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +28,11 @@ namespace Commands
 
         public class InitializationCommandHandler : ICommandHandler<InitOptions>
         {
-            public InitializationCommandHandler()
-            {
+            private readonly ISender _sender;
 
+            public InitializationCommandHandler(ISender sender)
+            {
+                _sender = sender;
             }
 
             public int Execute(InitOptions initOptions)
@@ -36,10 +40,14 @@ namespace Commands
 
                 if (!IsValid(initOptions))
                     return 0;
-                var settings = new Initialization.InitRequest();
+                Initialization.InitRequest settings = new Initialization.InitRequest();
                 settings.Name = initOptions.ProjectName;
                 settings.Template = initOptions.AdrTemplate;
                 settings.AvailableStatuses = initOptions.AvailableStatuses.ToArray();
+
+
+                _sender.Send(settings, CancellationToken.None).GetAwaiter().GetResult();
+
 
                 return 1;
             }

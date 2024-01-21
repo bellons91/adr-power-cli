@@ -14,6 +14,7 @@ namespace FileSystemAccess
     public class ConfigurationService : IConfigurationService
     {
         private const string SETTINGS_FILE_NAME = "settings.json";
+        private string SETTINGS_FILE_FULL_PATH = Path.Combine(CommonValues.RootFolder, SETTINGS_FILE_NAME);
 
         private JsonSerializerOptions? jsonOptions = new JsonSerializerOptions
         {
@@ -21,10 +22,17 @@ namespace FileSystemAccess
             WriteIndented = true,
         };
 
+
         public async Task InitializeAsync(AdrSettings settings, CancellationToken cancellationToken)
         {
             string serializedSettings = JsonSerializer.Serialize(settings, options: jsonOptions);
-            await File.WriteAllTextAsync(SETTINGS_FILE_NAME, serializedSettings, cancellationToken);
+
+            if (!Directory.Exists(CommonValues.RootFolder))
+            {
+                Directory.CreateDirectory(CommonValues.RootFolder);
+            }
+
+            await File.WriteAllTextAsync(SETTINGS_FILE_FULL_PATH, serializedSettings, cancellationToken);
         }
     }
 }

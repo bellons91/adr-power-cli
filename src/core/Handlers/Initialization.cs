@@ -27,7 +27,7 @@ namespace Handlers
 
             public async Task Handle(InitRequest request, CancellationToken cancellationToken)
             {
-                var settings = new AdrSettings();
+                var settings = CreateFromRequest(request);
 
                 if (!settings.IsValid())
                 {
@@ -35,6 +35,16 @@ namespace Handlers
                 }
 
                 await _configService.InitializeAsync(settings, cancellationToken);
+            }
+
+            private static AdrSettings CreateFromRequest(InitRequest request)
+            {
+                return new AdrSettings
+                {
+                    AvailableStatus = request.AvailableStatuses.ToArray(),
+                    Name = request.Name,
+                    Template = request.Template,
+                };
             }
         }
 
