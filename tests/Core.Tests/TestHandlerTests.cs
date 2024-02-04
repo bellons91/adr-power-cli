@@ -1,27 +1,24 @@
 using Handlers;
 
-namespace adr_core_tests
+namespace adrCoreTests;
+
+public class TestsHandlerTests
 {
-    public class TestsHandlerTests
+    private Test.TestHandler _sut;
+
+    [SetUp]
+    public void Setup() => _sut = new Test.TestHandler();
+
+    [Test]
+    public async Task TestMustReturnText()
     {
-        private Test.TestHandler _sut;
-
-        [SetUp]
-        public void Setup()
+        var testRequest = new Test.TestRequest
         {
-            _sut = new Test.TestHandler();
+            Name = "Davide"
+        };
 
-        }
+        var result = await _sut.Handle(testRequest, CancellationToken.None);
 
-        [Test]
-        public async Task TestMustReturnText()
-        {
-            var testRequest = new Test.TestRequest();
-            testRequest.Name = "Davide";
-
-            var result = await _sut.Handle(testRequest, CancellationToken.None);
-
-            Assert.That(result, Is.EqualTo("test Davide"));
-        }
+        Assert.That(result, Is.EqualTo("test Davide"));
     }
 }

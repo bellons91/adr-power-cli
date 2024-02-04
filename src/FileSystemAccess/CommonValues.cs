@@ -1,7 +1,6 @@
-﻿namespace FileSystemAccess
+namespace FileSystemAccess;
+
+internal static class CommonValues
 {
-    internal static class CommonValues
-    {
-        public static string RootFolder = "./adr-tool";
-    }
+    public static string RootFolder = "./adr-tool";
 }

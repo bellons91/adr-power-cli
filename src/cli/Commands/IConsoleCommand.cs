@@ -1,4 +1,3 @@
-﻿namespace Commands
-{
-    internal interface IConsoleCommand { }
-}
+namespace Commands;
+
+internal interface IConsoleCommand { }

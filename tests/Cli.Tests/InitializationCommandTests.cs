@@ -1,123 +1,117 @@
+using System.Diagnostics.CodeAnalysis;
 using Commands;
 using Handlers;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
 using static Handlers.Initialization;
 
-namespace CLITests
+namespace CLITests;
+
+
+
+public class InitializationCommandTests
 {
+    private InitializationCommand.InitializationCommandHandler _handler;
+    private readonly Mock<ISender> _mockSender;
 
 
-    public class InitializationCommandTests
+    public InitializationCommandTests()
     {
-        private InitializationCommand.InitializationCommandHandler _handler;
-        private readonly Mock<ISender> _mockSender;
+        _mockSender = new Mock<ISender>();
+    }
+    [SetUp]
+    public void Setup()
+    {
+        _mockSender.Reset();
 
+        _handler = new InitializationCommand.InitializationCommandHandler(_mockSender.Object, new NullLoggerFactory());
+    }
 
-        public InitializationCommandTests()
+    [Test]
+    [TestCase("")]
+    [TestCase("  ")]
+    [TestCase((string)null)]
+    public async Task RejectCommandWhenProjectNameIsNullOrEmpty(string invalidProjectName)
+    {
+        // Arrange
+        var invalidOption = new InitializationCommand.InitOptions
         {
-            _mockSender = new Mock<ISender>();
-        }
-        [SetUp]
-        public void Setup()
+            ProjectName = invalidProjectName,
+        };
+
+        // Act
+        var result = await _handler.Execute(invalidOption);
+
+        // Assert
+        _mockSender.VerifyNoOtherCalls();
+        Assert.That(result, Is.EqualTo(0));
+
+    }
+
+    [Test]
+    [TestCase("")]
+    [TestCase("  ")]
+    [TestCase((string)null)]
+    public async Task RejectCommandWhenTemplateIsNullOrEmptyAsync(string invalidTemplate)
+    {
+        // Arrange
+        var invalidOption = new InitializationCommand.InitOptions
         {
-            _mockSender.Reset();
+            AdrTemplate = invalidTemplate,
+            ProjectName = "project",
+        };
 
-            _handler = new InitializationCommand.InitializationCommandHandler(_mockSender.Object, new NullLoggerFactory());
-        }
+        // Act
+        var result = await _handler.Execute(invalidOption);
 
-        [Test]
-        [TestCase("")]
-        [TestCase("  ")]
-        [TestCase((string)null)]
-        public async Task Reject_Command_When_ProjectNameIsNullOrEmpty(string invalidProjectName)
+        // Assert
+        _mockSender.VerifyNoOtherCalls();
+        Assert.That(result, Is.EqualTo(0));
+    }
+
+    [Test]
+    public async Task SendInitializationCommand()
+    {
+
+        // Arrange
+        var validOptions = new InitializationCommand.InitOptions
         {
-            // Arrange
-            var invalidOption = new InitializationCommand.InitOptions
-            {
-                ProjectName = invalidProjectName,
-            };
+            AdrTemplate = "MyTemplate",
+            AvailableStatuses = new string[] { "FirstStatus" },
+            ProjectName = "MyProject"
+        };
 
-            // Act
-            var result = await _handler.Execute(invalidOption);
+        InitRequest actual = null;
+        _mockSender.Setup(_ => _.Send(It.IsAny<InitRequest>(), CancellationToken.None))
+            .Callback(new InvocationAction(i => actual = (InitRequest)i.Arguments[0]));
 
-            // Assert
-            _mockSender.VerifyNoOtherCalls();
-            Assert.That(result, Is.EqualTo(0));
-
-        }
-
-        [Test]
-        [TestCase("")]
-        [TestCase("  ")]
-        [TestCase((string)null)]
-        public async Task Reject_Command_When_TemplateIsNullOrEmptyAsync(string invalidTemplate)
+        var expected = new InitRequest
         {
-            // Arrange
-            var invalidOption = new InitializationCommand.InitOptions
-            {
-                AdrTemplate = invalidTemplate,
-                ProjectName = "project",
-            };
+            Name = "MyProject",
+            Template = "MyTemplate",
+            AvailableStatuses = ["FirstStatus"]
+        };
 
-            // Act
-            var result = await _handler.Execute(invalidOption);
-
-            // Assert
-            _mockSender.VerifyNoOtherCalls();
-            Assert.That(result, Is.EqualTo(0));
-        }
-
-        [Test]
-        public async Task SendInitializationCommand()
+        // Act
+        var result = await _handler.Execute(validOptions);
+        Assert.Multiple(() =>
         {
-
-            // Arrange
-            var validOptions = new InitializationCommand.InitOptions
-            {
-                AdrTemplate = "MyTemplate",
-                AvailableStatuses = new string[] { "FirstStatus" },
-                ProjectName = "MyProject"
-            };
-
-            InitRequest actual = null;
-            _mockSender.Setup(_ => _.Send(It.IsAny<InitRequest>(), CancellationToken.None))
-                .Callback(new InvocationAction(i => actual = (InitRequest)i.Arguments[0]));
-
-            InitRequest expected = new InitRequest
-            {
-                Name = "MyProject",
-                Template = "MyTemplate",
-                AvailableStatuses = new string[] { "FirstStatus" }
-            };
-
-            // Act
-            var result = await _handler.Execute(validOptions);
 
             // Assert
             Assert.That(result, Is.EqualTo(1));
             Assert.That(actual, Is.EqualTo(expected).Using(new InitRequestComparer()));
-        }
+        });
+    }
 
-        class InitRequestComparer : IEqualityComparer<InitRequest>
-        {
-            public bool Equals(InitRequest? x, InitRequest? y)
-            {
-                return string.Equals(x.Name, y.Name)
-                     &&
-                     string.Equals(x.Template, y.Template)
-                     && Enumerable.SequenceEqual(x.AvailableStatuses, y.AvailableStatuses)
-                     ;
-            }
+    private sealed class InitRequestComparer : IEqualityComparer<InitRequest>
+    {
+        public bool Equals(InitRequest? x, InitRequest? y) => string.Equals(x.Name, y.Name, StringComparison.Ordinal)
+                 &&
+                 string.Equals(x.Template, y.Template, StringComparison.Ordinal)
+                 && Enumerable.SequenceEqual(x.AvailableStatuses, y.AvailableStatuses)
+                 ;
 
-            public int GetHashCode([DisallowNull] InitRequest obj)
-            {
-                return obj.Name.GetHashCode() ^ obj.Template.GetHashCode();
-            }
-        }
+        public int GetHashCode([DisallowNull] InitRequest obj) => obj.Name.GetHashCode() ^ obj.Template.GetHashCode();
     }
 }

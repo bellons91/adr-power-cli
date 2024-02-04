@@ -1,10 +1,9 @@
-﻿using Core.Models;
+using Core.Models;
 
-namespace Interfaces
+namespace Interfaces;
+
+public interface IConfigurationService
 {
-    public interface IConfigurationService
-    {
-        Task<bool> ConfigExists(CancellationToken cancellationToken);
-        Task InitializeAsync(AdrSettings settings, CancellationToken cancellationToken);
-    }
+    Task<bool> ConfigExists(CancellationToken cancellationToken);
+    Task InitializeAsync(AdrSettings settings, CancellationToken cancellationToken);
 }

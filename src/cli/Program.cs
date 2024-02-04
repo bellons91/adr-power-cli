@@ -1,4 +1,4 @@
-﻿using CommandLine;
+using CommandLine;
 using Commands;
 using DependenciesCenter;
 using Handlers;
@@ -8,50 +8,41 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using static Commands.InitializationCommand;
 
-internal class Program
+var operationResult = Parser.Default.ParseArguments<InitOptions, object>(args)
+.MapResult(
+(InitOptions co) =>
 {
-    private static void Main(string[] args)
+    if (args.Length == 0)
     {
-        var operationResult = Parser.Default.ParseArguments<InitOptions, object>(args)
-            .MapResult(
-            (InitOptions co) =>
-            {
-                if (args.Length == 0)
-                {
-                    Console.WriteLine("No command was specified.");
-                }
-
-                using IHost host = BuildCurrentHost(args, co);
-                ISender sender = host.Services.GetRequiredService<ISender>();
-                ILoggerFactory loggerFactory = host.Services.GetRequiredService<ILoggerFactory>();
-
-                return new InitializationCommandHandler(sender, loggerFactory).Execute(co).GetAwaiter().GetResult();
-            },
-            err =>
-            {
-                Console.WriteLine("Not recognized!");
-                return 0;
-            }
-            );
-
-        Console.WriteLine(operationResult);
+        Console.WriteLine("No command was specified.");
     }
 
-    private static IHost BuildCurrentHost<T>(string[] args, T currentCommand) where T : BaseConsoleCommand
+    using var host = BuildCurrentHost(args, co);
+    var sender = host.Services.GetRequiredService<ISender>();
+    var loggerFactory = host.Services.GetRequiredService<ILoggerFactory>();
+
+    return new InitializationCommandHandler(sender, loggerFactory).Execute(co).GetAwaiter().GetResult();
+},
+err =>
+{
+    Console.WriteLine("Not recognized!");
+    return 0;
+}
+);
+
+Console.WriteLine(operationResult);
+
+IHost BuildCurrentHost<T>(string[] args, T currentCommand) where T : BaseConsoleCommand
+{
+    var builder = Host.CreateApplicationBuilder(args);
+
+    if (currentCommand.Verbose)
     {
-        HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
-
-        if (currentCommand.Verbose)
-            builder.Logging.SetMinimumLevel(LogLevel.Debug);
-
-        builder.Services.AddCliDependencies();
-        builder.Services.AddMediatR(cfg =>
-        {
-            cfg.RegisterServicesFromAssembly(typeof(Test).Assembly);
-        });
-
-        return builder.Build();
+        builder.Logging.SetMinimumLevel(LogLevel.Debug);
     }
 
+    builder.Services.AddCliDependencies();
+    builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Test).Assembly));
 
+    return builder.Build();
 }

@@ -1,10 +1,9 @@
-﻿using CommandLine;
+using CommandLine;
 
-namespace Commands
+namespace Commands;
+
+public abstract class BaseConsoleCommand : IConsoleCommand
 {
-    public abstract class BaseConsoleCommand : IConsoleCommand
-    {
-        [Option('v', "verbose", Required = false, HelpText = "Set output to verbose messages.")]
-        public bool Verbose { get; set; }
-    }
+    [Option('v', "verbose", Required = false, HelpText = "Set output to verbose messages.")]
+    public bool Verbose { get; set; }
 }

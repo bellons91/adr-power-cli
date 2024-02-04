@@ -1,17 +1,16 @@
-﻿using FileSystemAccess;
+using FileSystemAccess;
 using Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DependenciesCenter
+namespace DependenciesCenter;
+
+public static class DependencyBuilder
 {
-    public static class DependencyBuilder
+    public static IServiceCollection AddCliDependencies(this IServiceCollection services)
     {
-        public static IServiceCollection AddCliDependencies(this IServiceCollection services)
-        {
-            services.AddSingleton<IConfigurationService, ConfigurationService>();
+        services.AddSingleton<IConfigurationService, ConfigurationService>();
 
-            return services;
-        }
-
+        return services;
     }
+
 }
