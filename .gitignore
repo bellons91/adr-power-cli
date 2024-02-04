@@ -46,3 +46,5 @@
 /tests/Cli.Tests/obj
 /tests/Core.Tests/bin
 /tests/Core.Tests/obj
+/src/DependenciesCenter/bin/Release/net8.0
+/src/FileSystemAccess/bin/Release/net8.0

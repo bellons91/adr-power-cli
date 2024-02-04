@@ -31,8 +31,13 @@ namespace Handlers
 
                 if (!settings.IsValid())
                 {
-                    throw new Exception("Adr settings are not valid");
+                    throw new InvalidInitializationException("Adr settings are not valid");
                 }
+
+                var alreadyExists = await _configService.ConfigExists(cancellationToken);
+
+                if (alreadyExists)
+                    throw new InvalidInitializationException("Adr settings already exists.");
 
                 await _configService.InitializeAsync(settings, cancellationToken);
             }
@@ -41,13 +46,21 @@ namespace Handlers
             {
                 return new AdrSettings
                 {
-                    AvailableStatus = request.AvailableStatuses.ToArray(),
+                    AvailableStatus = (request.AvailableStatuses ?? new string[] { }).ToArray(),
                     Name = request.Name,
                     Template = request.Template,
                 };
             }
         }
+    }
 
 
+    [Serializable]
+    public class InvalidInitializationException : Exception
+    {
+        public InvalidInitializationException(string message) : base(message) { }
+        protected InvalidInitializationException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
     }
 }

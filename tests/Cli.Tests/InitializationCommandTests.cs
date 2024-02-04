@@ -1,8 +1,11 @@
 using Commands;
 using Handlers;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 using static Handlers.Initialization;
 
 namespace CLITests
@@ -23,7 +26,8 @@ namespace CLITests
         public void Setup()
         {
             _mockSender.Reset();
-            _handler = new InitializationCommand.InitializationCommandHandler(_mockSender.Object);
+
+            _handler = new InitializationCommand.InitializationCommandHandler(_mockSender.Object, new NullLoggerFactory());
         }
 
         [Test]

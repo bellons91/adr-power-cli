@@ -1,13 +1,6 @@
 ﻿using Core.Models;
-using Handlers;
 using Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace FileSystemAccess
 {
@@ -22,8 +15,13 @@ namespace FileSystemAccess
             WriteIndented = true,
         };
 
+        public Task<bool> ConfigExists(CancellationToken cancellationToken)
+        {
+            var fileSettingsExists = File.Exists(SETTINGS_FILE_FULL_PATH);
+            return Task.FromResult(fileSettingsExists);
+        }
 
-        public async Task InitializeAsync(AdrSettings settings, CancellationToken cancellationToken)
+        public Task InitializeAsync(AdrSettings settings, CancellationToken cancellationToken)
         {
             string serializedSettings = JsonSerializer.Serialize(settings, options: jsonOptions);
 
@@ -32,7 +30,7 @@ namespace FileSystemAccess
                 Directory.CreateDirectory(CommonValues.RootFolder);
             }
 
-            await File.WriteAllTextAsync(SETTINGS_FILE_FULL_PATH, serializedSettings, cancellationToken);
+            return File.WriteAllTextAsync(SETTINGS_FILE_FULL_PATH, serializedSettings, cancellationToken);
         }
     }
 }
