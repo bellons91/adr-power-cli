@@ -1,6 +1,8 @@
-﻿using Core.Models;
+﻿using Castle.Core.Logging;
+using Core.Models;
 using Handlers;
 using Interfaces;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace adr_core_tests
@@ -22,7 +24,9 @@ namespace adr_core_tests
             _cancellationToken = (new CancellationTokenSource()).Token;
             _mockConfigService.Setup(cs => cs.ConfigExists(_cancellationToken)).ReturnsAsync(false);
 
-            _sut = new Initialization.InitializationHandler(_mockConfigService.Object);
+            var logger = Mock.Of<ILogger<Initialization.InitializationHandler>>();
+
+            _sut = new Initialization.InitializationHandler(_mockConfigService.Object, logger);
         }
 
 
