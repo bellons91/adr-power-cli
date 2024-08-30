@@ -1,0 +1,16 @@
+C:\Users\d.bellone\Documents\PRIVATE\adr-power-cli\src\FileSystemAccess\obj\Debug\net8.0\FileSystemAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\d.bellone\Documents\PRIVATE\adr-power-cli\src\FileSystemAccess\obj\Debug\net8.0\FileSystemAccess.AssemblyInfoInputs.cache
+C:\Users\d.bellone\Documents\PRIVATE\adr-power-cli\src\FileSystemAccess\obj\Debug\net8.0\FileSystemAccess.AssemblyInfo.cs
+C:\Users\d.bellone\Documents\PRIVATE\adr-power-cli\src\FileSystemAccess\obj\Debug\net8.0\FileSystemAccess.csproj.CoreCompileInputs.cache
+C:\Users\d.bellone\Documents\PRIVATE\adr-power-cli\src\FileSystemAccess\obj\Debug\net8.0\FileSystemAccess.sourcelink.json
+C:\Users\d.bellone\Documents\PRIVATE\adr-power-cli\src\FileSystemAccess\obj\Debug\net8.0\FileSystemAccess.csproj.AssemblyReference.cache
+C:\Users\d.bellone\Documents\PRIVATE\adr-power-cli\src\FileSystemAccess\bin\Debug\net8.0\FileSystemAccess.deps.json
+C:\Users\d.bellone\Documents\PRIVATE\adr-power-cli\src\FileSystemAccess\bin\Debug\net8.0\FileSystemAccess.dll
+C:\Users\d.bellone\Documents\PRIVATE\adr-power-cli\src\FileSystemAccess\bin\Debug\net8.0\FileSystemAccess.pdb
+C:\Users\d.bellone\Documents\PRIVATE\adr-power-cli\src\FileSystemAccess\bin\Debug\net8.0\Core.dll
+C:\Users\d.bellone\Documents\PRIVATE\adr-power-cli\src\FileSystemAccess\bin\Debug\net8.0\Core.pdb
+C:\Users\d.bellone\Documents\PRIVATE\adr-power-cli\src\FileSystemAccess\obj\Debug\net8.0\FileSystemAccess.csproj.CopyComplete
+C:\Users\d.bellone\Documents\PRIVATE\adr-power-cli\src\FileSystemAccess\obj\Debug\net8.0\FileSystemAccess.dll
+C:\Users\d.bellone\Documents\PRIVATE\adr-power-cli\src\FileSystemAccess\obj\Debug\net8.0\refint\FileSystemAccess.dll
+C:\Users\d.bellone\Documents\PRIVATE\adr-power-cli\src\FileSystemAccess\obj\Debug\net8.0\FileSystemAccess.pdb
+C:\Users\d.bellone\Documents\PRIVATE\adr-power-cli\src\FileSystemAccess\obj\Debug\net8.0\ref\FileSystemAccess.dll

@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "fGrixnH78a0MIcmK8NwdAJSmamfZrsQ755oXREcEe4pSoi3B8ihzFe/iUrNJ/HhDo7cxFXbQ0vsoJqjsbj7Bjw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\d.bellone\\Documents\\PRIVATE\\adr-power-cli\\src\\FileSystemAccess\\FileSystemAccess.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\d.bellone\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",
+    "C:\\Users\\d.bellone\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
+    "C:\\Users\\d.bellone\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\d.bellone\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
